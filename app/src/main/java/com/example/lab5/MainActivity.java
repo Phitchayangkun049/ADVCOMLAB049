@@ -2,7 +2,9 @@ package com.example.lab5;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar mainProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +27,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        mainProgressBar = findViewById(R.id.mainProgressBar);
+
         Button addNoteButton = findViewById(R.id.addNoteButton);
         addNoteButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
             startActivity(intent);
+        });
+
+        Button browseNoteButton = findViewById(R.id.browseNoteButton);
+        browseNoteButton.setOnClickListener(v -> {
+            loadBrowseNoteActivity();
         });
 
         Button clickButton = findViewById(R.id.button3);
@@ -34,5 +45,32 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Click.class);
             startActivity(intent);
         });
+    }
+
+    private void loadBrowseNoteActivity() {
+        mainProgressBar.setVisibility(View.VISIBLE);
+        
+        // Multi-tasking using Thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Simulate loading delay of 2 seconds
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // UI updates must be on UI thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainProgressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(MainActivity.this, BrowseNoteActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }).start();
     }
 }

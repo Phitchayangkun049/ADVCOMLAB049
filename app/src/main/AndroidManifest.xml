@@ -29,6 +29,10 @@
             android:name=".Click"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BrowseNoteActivity"
+            android:exported="false"
+            android:label="Browse Notes" />
     </application>
 
 </manifest>
