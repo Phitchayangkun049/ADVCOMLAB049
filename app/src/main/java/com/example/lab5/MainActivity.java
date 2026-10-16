@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ProgressBar mainProgressBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        mainProgressBar = findViewById(R.id.mainProgressBar);
+        progressBar = findViewById(R.id.progressBar);
 
         Button addNoteButton = findViewById(R.id.addNoteButton);
         addNoteButton.setOnClickListener(v -> {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadBrowseNoteActivity() {
-        mainProgressBar.setVisibility(View.VISIBLE);
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
         
         // Multi-tasking using Thread
         new Thread(new Runnable() {
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mainProgressBar.setVisibility(View.GONE);
+                        if (progressBar != null) progressBar.setVisibility(View.GONE);
+
                         Intent intent = new Intent(MainActivity.this, BrowseNoteActivity.class);
                         startActivity(intent);
                     }
