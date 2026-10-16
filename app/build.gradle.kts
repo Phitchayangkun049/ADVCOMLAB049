@@ -4,11 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.lab5"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.lab5"
@@ -22,9 +18,8 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -34,10 +29,14 @@ android {
 }
 
 dependencies {
-    implementation(libs.activity.ktx)
     implementation(libs.appcompat)
-    implementation(libs.constraintlayout)
     implementation(libs.material)
+    implementation(libs.activity.ktx)
+    implementation(libs.constraintlayout)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.gson)
+    annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)

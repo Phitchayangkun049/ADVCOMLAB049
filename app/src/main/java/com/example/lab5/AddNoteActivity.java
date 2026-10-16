@@ -73,6 +73,9 @@ public class AddNoteActivity extends AppCompatActivity {
             note = noteController.addCheckListNote(title, userName, items);
         }
 
+        // Save to Database
+        noteController.saveNoteToDatabase(this, note);
+
         // View asks Controller for data to display
         String details = noteController.getNoteDetails(note);
         displayNoteTextView.setText(details);
