@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.concurrent.Executors;
+
 public class MainActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         progressBar = findViewById(R.id.progressBar);
+
+        // Clear notes on run
+        Executors.newSingleThreadExecutor().execute(() -> {
+            AppDatabase.getInstance(getApplicationContext()).noteDao().deleteAll();
+        });
 
         Button addNoteButton = findViewById(R.id.addNoteButton);
         addNoteButton.setOnClickListener(v -> {
